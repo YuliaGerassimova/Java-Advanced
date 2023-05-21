@@ -1,0 +1,77 @@
+package MultidimensionalArrays;
+
+
+import java.util.Scanner;
+
+public class DiagonalDifference {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int size = Integer.parseInt(scanner.nextLine());
+
+        int[][] matrix = new int[size][size];
+
+        fillMatrix(matrix, scanner);
+
+        int sumPrimary = getSumPrimary(matrix);
+        int sumSecondary = getSumSecondary(matrix);
+        System.out.println(Math.abs(sumPrimary-sumSecondary));
+
+//        for (int line = 1; line <=size; line++) {
+//            String[] rowData = scanner.nextLine().split(" ");
+//            int[] currentRow = Arrays.stream(rowData)
+//                    .mapToInt(elem -> Integer.parseInt(elem))
+//                    .toArray();
+//
+//
+    }
+
+    private static int getSumSecondary(int[][] matrix) {
+        int sum = 0;
+
+        for (int row = 0; row <matrix.length ; row++) {
+            for (int col = matrix.length-1; col >= 0; col--) {
+                int currentElem = matrix[row][col];
+
+                if(col == matrix.length-row-1){
+                    sum+= currentElem;
+
+                }
+
+
+
+            }
+
+        }
+        return sum;
+    }
+
+    private static int getSumPrimary(int[][] matrix) {
+        int sum = 0;
+
+        for (int row = 0; row <matrix.length ; row++) {
+            for (int col = 0; col < matrix.length; col++) {
+                if(row==col){
+                    sum+= matrix[row][col];
+                }
+
+            }
+            
+        }
+        return sum;
+    }
+
+
+    private static void fillMatrix(int[][] matrix, Scanner scanner) {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix.length; col++) {
+                matrix[row][col] = scanner.nextInt();
+            }
+            
+        }
+
+        
+
+
+    }
+}
