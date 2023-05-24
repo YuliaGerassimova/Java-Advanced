@@ -1,0 +1,108 @@
+package MultidimensionalArrays;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class RallyRacing {
+    public static void main(String[] args) {
+         Scanner scanner = new Scanner(System.in);
+
+         int size =  Integer.parseInt(scanner.nextLine());
+         String cartName = scanner.nextLine();
+         int km = 0;
+
+         String[][] route = new String[size][size];
+         fillMatrix(route,scanner);
+
+         int currentRow = 0;
+         int currentCol = 0;
+
+         List<Integer> tunnelsCoordinates =  new ArrayList<>();
+         
+         findTunnels(route,tunnelsCoordinates);
+
+         String direction = scanner.nextLine();
+         int tunnels = 0;
+         while (!direction.equals("End")){
+
+             switch (direction){
+                 case "left":
+                     currentCol--;
+                     break;
+                 case "right":
+                     currentCol++;
+                     break;
+                 case "up":
+                     currentRow--;
+                     break;
+                 case "down":
+                     currentRow++;
+                     break;
+             }
+             String newPlace = route[currentRow][currentCol];
+             if (".".equals(newPlace)) {
+                 km += 10;
+             } else if ("T".equals(newPlace)) {
+                 tunnels++;
+                 if(tunnels==1){
+                     currentRow = tunnelsCoordinates.get(2);
+                     currentCol = tunnelsCoordinates.get(3);
+                     km+=30;
+                     route[tunnelsCoordinates.get(0)][tunnelsCoordinates.get(1)]=".";
+                     route[tunnelsCoordinates.get(2)][tunnelsCoordinates.get(3)]=".";
+                 }
+             } else if ("F".equals(newPlace)) {
+                 km += 10;
+                 System.out.printf("Racing car %s finished the stage!%n", cartName);
+                 break;
+             }
+
+
+             direction = scanner.nextLine();
+         }
+
+         if(direction.equals("End")){
+             System.out.printf("Racing car %s DNF.%n", cartName);
+         }
+
+        System.out.printf("Distance covered %d km.%n",km);
+         route[currentRow][currentCol]="C";
+
+         printMatrix(route);
+
+
+
+    }
+
+    private static void printMatrix(String[][] matrix) {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix.length; col++) {
+                System.out.print(matrix[row][col]);
+
+            }
+            System.out.println();
+
+        }
+    }
+
+    private static void findTunnels(String[][] route, List<Integer> tunnelsCoordinates) {
+        for (int row = 0; row < route.length; row++) {
+            for (int col = 0; col < route.length; col++) {
+                String currentElement = route[row][col];
+                if(currentElement.equals("T")){
+                    tunnelsCoordinates.add(row);
+                    tunnelsCoordinates.add(col);
+                }
+                
+            }
+        }
+    }
+
+    private static void fillMatrix(String[][] matrix, Scanner scanner) {
+        for (int row = 0; row < matrix.length; row++) {
+            matrix[row] = scanner.nextLine().split("\\s+");
+        }
+
+    }
+}
