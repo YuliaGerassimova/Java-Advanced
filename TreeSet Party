@@ -1,0 +1,65 @@
+package SetsAndMaps;
+
+
+import java.util.Scanner;
+import java.util.TreeSet;
+
+public class PartyTreeMap {
+    public static void main(String[] args) {
+         Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+
+        TreeSet<String> invited = new TreeSet<>();
+
+        TreeSet<String> notAttended = new TreeSet<>();
+        TreeSet<String> notAttendedVIP = new TreeSet<>();
+
+        while (!input.equals("PARTY")){
+            if(input.length()==8){
+                invited.add(input);
+            }
+
+            input = scanner.nextLine();
+        }
+
+        while (!input.equals("END")){
+
+
+            // char[] firstSymbol = input.toCharArray();
+            char symbol = input.charAt(0);
+            if (Character.isDigit(symbol)) {
+
+                // attendedVIP.add(input);
+                invited.remove(input);
+            }else {
+                // attended.add(input);
+                invited.remove(input);
+            }
+
+            input = scanner.nextLine();
+        }
+
+        for (String guest : invited ) {
+            char symbol = guest.charAt(0);
+            if (Character.isDigit(symbol)){
+                notAttendedVIP.add(guest);
+            }else {
+                notAttended.add(guest);
+            }
+
+        }
+        int count = notAttendedVIP.size() + notAttended.size();
+
+        System.out.println(count);
+        for (String s : notAttendedVIP) {
+            System.out.println(s);
+
+        }
+        for (String s : notAttended) {
+            System.out.println(s);
+
+        }
+
+    }
+}
